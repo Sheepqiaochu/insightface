@@ -12,7 +12,7 @@ import cv2
 import os
 import time
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'common'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../..', 'src', 'common'))
 import face_image
 import face_preprocess
 import numpy as np
