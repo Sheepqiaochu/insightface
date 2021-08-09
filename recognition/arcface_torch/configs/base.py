@@ -47,7 +47,7 @@ elif config.dataset == "glint360k":
     config.val_targets = ["lfw", "cfp_fp", "agedb_30"]
 
 elif config.dataset == "webface":
-    config.rec = "/train_tmp/faces_webface_112x112"
+    config.rec = "~/datasets/faces_webface_112x112"
     config.num_classes = 10572
     config.num_image = "forget"
     config.num_epoch = 34
