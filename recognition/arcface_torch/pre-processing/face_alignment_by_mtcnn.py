@@ -6,15 +6,14 @@
 # @Software: PyCharm
 
 
-import mxnet as mx
-from mtcnn_detector import MtcnnDetector
-import cv2
 import os
-import time
 import sys
 
+import cv2
+import mxnet as mx
+from mtcnn_detector import MtcnnDetector
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../../..', 'src', 'common'))
-import face_image
 import face_preprocess
 import numpy as np
 
