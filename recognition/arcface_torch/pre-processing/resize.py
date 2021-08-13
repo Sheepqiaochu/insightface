@@ -3,11 +3,11 @@ import os
 import cv2
 from PIL import Image
 
-# faces_path = r'D:\yangqiancheng\Desktop\images'  # 人脸数据文件夹
-# output_path = r'D:\yangqiancheng\Desktop\cropped'  # 对齐后的保存的人脸数据文件夹
+# faces_path = r'/data/users/yangqiancheng/datasets\images'  # 人脸数据文件夹
+# output_path = r'/data/users/yangqiancheng/datasets\cropped'  # 对齐后的保存的人脸数据文件夹
 
-faces_path = r'~/datasets/images'  # 人脸数据文件夹
-output_path = r'~/datasets/oppo'  # 对齐后的保存的人脸数据文件夹
+faces_path = r'/data/users/yangqiancheng/datasets/images'  # 人脸数据文件夹
+output_path = r'/data/users/yangqiancheng/datasets/cropped'  # 对齐后的保存的人脸数据文件夹
 
 for root, _, files in os.walk(faces_path):
     for fname in files:
