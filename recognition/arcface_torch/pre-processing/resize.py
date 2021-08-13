@@ -21,6 +21,6 @@ for root, _, files in os.walk(faces_path):
             transforms.ToPILImage(),
             transforms.CenterCrop(112)])
         cropped_image = cropped(img)
-        cv2.imwrite(os.path.join(new_root, fname), cropped)
+        cv2.imwrite(os.path.join(new_root, fname), cropped_image)
         # cv2.imshow("img", img)
         # cv2.waitKey(0)
