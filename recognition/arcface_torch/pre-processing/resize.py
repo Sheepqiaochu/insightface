@@ -17,8 +17,9 @@ for root, _, files in os.walk(faces_path):
         new_root = os.path.join(output_path, os.path.basename(root))
         if not os.path.exists(new_root):
             os.mkdir(new_root)
-        cropped = transforms.Compose(
-            [transforms.CenterCrop(112)])
+        cropped = transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.CenterCrop(112)])
         cropped_image = cropped(img)
         cv2.imwrite(os.path.join(new_root, fname), cropped)
         # cv2.imshow("img", img)
