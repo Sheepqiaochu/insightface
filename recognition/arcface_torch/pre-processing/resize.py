@@ -4,11 +4,11 @@ import cv2
 from PIL import Image
 from torchvision import transforms
 
-faces_path = r'/data/users/yangqiancheng/datasets\images'  # 人脸数据文件夹
-output_path = r'/data/users/yangqiancheng/datasets\cropped'  # 对齐后的保存的人脸数据文件夹
+# faces_path = r'/data/users/yangqiancheng/datasets\images'  # 人脸数据文件夹
+# output_path = r'/data/users/yangqiancheng/datasets\cropped'  # 对齐后的保存的人脸数据文件夹
 
-# faces_path = r'/data/users/yangqiancheng/datasets/images'  # 人脸数据文件夹
-# output_path = r'/data/users/yangqiancheng/datasets/cropped'  # 对齐后的保存的人脸数据文件夹
+faces_path = r'/data/users/yangqiancheng/datasets/images'  # 人脸数据文件夹
+output_path = r'/data/users/yangqiancheng/datasets/cropped'  # 对齐后的保存的人脸数据文件夹
 
 for root, _, files in os.walk(faces_path):
     for fname in files:
