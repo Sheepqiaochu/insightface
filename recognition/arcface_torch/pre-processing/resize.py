@@ -2,6 +2,7 @@ import os
 
 import cv2
 from PIL import Image
+from torchvision import transforms
 
 # faces_path = r'/data/users/yangqiancheng/datasets\images'  # 人脸数据文件夹
 # output_path = r'/data/users/yangqiancheng/datasets\cropped'  # 对齐后的保存的人脸数据文件夹
@@ -16,7 +17,9 @@ for root, _, files in os.walk(faces_path):
         new_root = os.path.join(output_path, os.path.basename(root))
         if not os.path.exists(new_root):
             os.mkdir(new_root)
-        cropped = img[4:116, 4:116]
+        cropped = transforms.Compose(
+            [transforms.CenterCrop(112)])
+        cropped_image = cropped(img)
         cv2.imwrite(os.path.join(new_root, fname), cropped)
         # cv2.imshow("img", img)
         # cv2.waitKey(0)
