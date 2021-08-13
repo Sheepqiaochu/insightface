@@ -7,10 +7,10 @@ from easydict import EasyDict as edict
 config = edict()
 config.loss = "arcface"
 config.network = "r50"
-config.resume = False
+config.resume = True
 config.output = "ms1mv3_arcface_r50"
 
-config.dataset = "ms1m-retinaface-t1"
+config.dataset = "oppo"
 config.embedding_size = 512
 config.sample_rate = 1
 config.fp16 = False
@@ -49,6 +49,16 @@ elif config.dataset == "glint360k":
 elif config.dataset == "webface":
     config.rec = "~/datasets/faces_webface_112x112"
     config.num_classes = 10572
+    config.num_image = "forget"
+    config.num_epoch = 34
+    config.warmup_epoch = -1
+    config.decay_epoch = [20, 28, 32]
+    config.val_targets = ["lfw", "cfp_fp", "agedb_30"]
+
+
+elif config.dataset == "oppo":
+    config.rec = "~/datasets/oppo_cropped"
+    config.num_classes = 425
     config.num_image = "forget"
     config.num_epoch = 34
     config.warmup_epoch = -1
