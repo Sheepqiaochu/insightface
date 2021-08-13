@@ -30,7 +30,7 @@ def main(args):
         dist.init_process_group(backend='nccl', init_method="tcp://127.0.0.1:12584", rank=rank, world_size=world_size)
 
     local_rank = args.local_rank
-    torch.cuda.set_device('cuda:'+str(local_rank))
+    torch.cuda.set_device('cuda:' + str(local_rank))
     os.makedirs(cfg.output, exist_ok=True)
     init_logging(rank, cfg.output)
 
@@ -103,8 +103,8 @@ def main(args):
     start_epoch = 0
     global_step = 0
     grad_amp = MaxClipGradScaler(cfg.batch_size, 128 * cfg.batch_size, growth_interval=100) if cfg.fp16 else None
-    print("start training")
     for epoch in range(start_epoch, cfg.num_epoch):
+        print("start training" + str(epoch))
         train_sampler.set_epoch(epoch)
         for step, (img, label) in enumerate(train_loader):
             global_step += 1
@@ -138,5 +138,5 @@ if __name__ == "__main__":
     torch.backends.cudnn.benchmark = True
     parser = argparse.ArgumentParser(description='PyTorch ArcFace Training')
     parser.add_argument('config', type=str, help='py config file')
-    parser.add_argument('--local_rank', type=int,  default=0,  help='local_rank')
+    parser.add_argument('--local_rank', type=int, default=0, help='local_rank')
     main(parser.parse_args())
