@@ -1,3 +1,4 @@
-*.pth
+*.pt
 *.pth
 .idea
+work_dirs
