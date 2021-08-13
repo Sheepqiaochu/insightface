@@ -103,6 +103,7 @@ def main(args):
     start_epoch = 0
     global_step = 0
     grad_amp = MaxClipGradScaler(cfg.batch_size, 128 * cfg.batch_size, growth_interval=100) if cfg.fp16 else None
+    print("start training")
     for epoch in range(start_epoch, cfg.num_epoch):
         train_sampler.set_epoch(epoch)
         for step, (img, label) in enumerate(train_loader):
