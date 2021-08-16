@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description='Package LFW images')
 # general
 parser.add_argument('--data-dir', default='', help='')
 parser.add_argument('--txt-dir', default='', help='')
-parser.add_argument('--image-size', type=str, default='112,96', help='')
+parser.add_argument('--image-size', type=str, default='112,112', help='')
 parser.add_argument('--output', default='', help='path to save.')
 args = parser.parse_args()
 # args.output = r'F:\datasets\20_faces_datasets\20_faces.bin'
