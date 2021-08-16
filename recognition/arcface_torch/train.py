@@ -95,7 +95,7 @@ def main(args):
         logging.info(": " + key + " " * num_space + str(value))
 
     val_target = cfg.val_targets
-    callback_verification = CallBackVerification(10, rank, val_target, cfg.rec)
+    callback_verification = CallBackVerification(30, rank, val_target, cfg.rec)
     callback_logging = CallBackLogging(50, rank, cfg.total_step, cfg.batch_size, world_size, None)
     callback_checkpoint = CallBackModelCheckpoint(rank, cfg.output)
 

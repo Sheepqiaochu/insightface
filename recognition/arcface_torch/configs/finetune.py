@@ -7,7 +7,7 @@ from easydict import EasyDict as edict
 config = edict()
 config.loss = "cosface"
 config.network = "r34"
-config.resume = False
+config.resume = True
 config.output = None
 config.embedding_size = 512
 config.sample_rate = 1.0
@@ -22,4 +22,4 @@ config.num_image = 2000
 config.num_epoch = 40
 config.warmup_epoch = -1
 config.decay_epoch = [8, 12, 15, 18]
-config.val_targets = ["lfw", "cfp_fp", "agedb_30", "train"]
+config.val_targets = ["lfw", "cfp_fp", "agedb_30"]
