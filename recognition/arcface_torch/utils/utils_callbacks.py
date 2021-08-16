@@ -42,8 +42,8 @@ class CallBackVerification(object):
                 self.ver_name_list.append(name)
 
     def __call__(self, num_update, backbone: torch.nn.Module):
-        print('judging whether to verification:num_update is %f, and frequent is %f:' % num_update
-              % self.frequent)
+        print('judging whether to verification:num_update is %f, and frequent is %f:' % (num_update
+        ,self.frequent))
         if self.rank is 0 and num_update > 0 and num_update % self.frequent == 0:
             backbone.eval()
             self.ver_test(backbone, num_update)
