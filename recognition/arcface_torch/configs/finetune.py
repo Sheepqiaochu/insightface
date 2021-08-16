@@ -22,4 +22,4 @@ config.num_image = 2000
 config.num_epoch = 40
 config.warmup_epoch = -1
 config.decay_epoch = [8, 12, 15, 18]
-config.val_targets = ["lfw", "cfp_fp", "agedb_30"]
+config.val_targets = ["lfw", "cfp_fp", "agedb_30", "train"]
