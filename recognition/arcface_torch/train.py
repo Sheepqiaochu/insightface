@@ -107,7 +107,6 @@ def main(args):
         train_sampler.set_epoch(epoch)
         for step, (img, label) in enumerate(train_loader):
             global_step += 1
-            print("current global_step:" + str(global_step))
             features = F.normalize(backbone(img))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
             if cfg.fp16:
