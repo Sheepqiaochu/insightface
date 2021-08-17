@@ -18,6 +18,7 @@ from utils.utils_config import get_config
 from utils.utils_logging import AverageMeter, init_logging
 
 import foolbox as fb
+from PGD import PGDAttacker
 
 
 def main(args):
@@ -77,10 +78,9 @@ def main(args):
     loss = AverageMeter()
 
     attack = fb.attacks.LinfPGD
-
+    pgd = PGDAttacker(12, 10, 1, True, norm_type='l-infty', args=args)
     for step, (img, label) in enumerate(image_loader):
-        features = F.normalize(backbone(img))
-        x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
+       adv_x = pgd.perturb(backbone, img, label)
 
 
 if __name__ == "__main__":
