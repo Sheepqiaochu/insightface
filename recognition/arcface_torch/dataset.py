@@ -8,6 +8,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
+import cv2
 
 
 class BackgroundGenerator(threading.Thread):
@@ -122,3 +123,44 @@ class SyntheticDataset(Dataset):
 
     def __len__(self):
         return 1000000
+
+
+class ImageLoader(Dataset):
+    def __init__(self, root_dir, local_rank):
+        super(ImageLoader, self).__init__()
+        self.transform = transforms.Compose(
+            [transforms.ToPILImage(),
+             transforms.RandomHorizontalFlip(),
+             transforms.ToTensor(),
+             transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+             ])
+        self.root_dir = root_dir
+        self.local_rank = local_rank
+
+        self.image_set = self.get_dataset()
+
+    def __getitem__(self, index):
+
+        image = cv2.imread(self.image_set[index][0])
+        if self.transform:
+            image = self.transform(image)
+        return image, torch.tensor(self.image_set[index][1], dtype=torch.long)
+
+    def __len__(self):
+        return len(self.imgidx)
+
+    def get_dataset(self):
+        image_set = []
+        names = os.listdir(self.root_dir)
+        if len(names) == 0:
+            raise RuntimeError('Empty dataset')
+        for klass, name in enumerate(names):
+            def add_class(image):
+                image_path = os.path.join(self.root_dir, name, image)
+                return image_path, klass, name
+
+            images_of_person = os.listdir(os.path.join(self.root_dir, name))
+            image_set += map(
+                add_class,
+                images_of_person[:])
+        return image_set
