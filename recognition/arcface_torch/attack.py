@@ -2,23 +2,18 @@ import argparse
 import logging
 import os
 
+import foolbox as fb
 import torch
 import torch.distributed as dist
-import torch.nn.functional as F
 import torch.utils.data.distributed
-from torch.nn.utils import clip_grad_norm_
 
 import losses
-from backbones import get_model
-from dataset import MXFaceDataset, SyntheticDataset, DataLoaderX, ImageLoader
-from partial_fc import PartialFC
-from utils.utils_amp import MaxClipGradScaler
-from utils.utils_callbacks import CallBackVerification, CallBackLogging, CallBackModelCheckpoint
-from utils.utils_config import get_config
-from utils.utils_logging import AverageMeter, init_logging
-
-import foolbox as fb
 from PGD import PGDAttacker
+from backbones import get_model
+from dataset import MXFaceDataset, DataLoaderX, ImageLoader
+from partial_fc import PartialFC
+from utils.utils_config import get_config
+from utils.utils_logging import AverageMeter
 
 
 def main(args):
@@ -53,11 +48,6 @@ def main(args):
     backbone = torch.nn.parallel.DistributedDataParallel(
         module=backbone, broadcast_buffers=False, device_ids=[local_rank])
 
-    train_set = MXFaceDataset(root_dir=cfg.rec, local_rank=local_rank)
-    image_loader = DataLoaderX(
-        local_rank=local_rank, dataset=train_set, batch_size=cfg.batch_size,
-        sampler=image_sampler, num_workers=2, pin_memory=True, drop_last=True)
-
     margin_softmax = losses.get_loss(cfg.loss)
     module_partial_fc = PartialFC(
         rank=rank, local_rank=local_rank, world_size=world_size, resume=cfg.resume,
@@ -73,7 +63,7 @@ def main(args):
         lr=cfg.lr / 512 * cfg.batch_size * world_size,
         momentum=0.9, weight_decay=cfg.weight_decay)
 
-    num_image = len(train_set)
+    num_image = len(image_set)
     total_batch_size = cfg.batch_size * world_size
     loss = AverageMeter()
 
