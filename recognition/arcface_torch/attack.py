@@ -90,7 +90,6 @@ if __name__ == "__main__":
     parser.add_argument('--model_path', type=str, help='path of the target model')
     parser.add_argument('--local_rank', type=int, default=0, help='local_rank')
     parser.add_argument('--model', type=str, default='r34', help='choose the model type')
-    parser.add_argument('--local_rank', type=int, default=0, help='local_rank')
     parser.add_argument('--data_root', type=str, default='~/datasets/cropped', help='choose the model type')
 
     main(parser.parse_args())
