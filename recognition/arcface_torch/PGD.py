@@ -62,8 +62,8 @@ class PGDAttacker:
             adv_x.requires_grad_()
             features = F.normalize(backbone(adv_x))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
-
-            grad = torch.autograd.grad(torch.mm(x_grad.t(), features), [adv_x])[0]
+            tem = torch.mm(x_grad.t(), features)
+            grad = torch.autograd.grad(tem, [adv_x])[0]
 
             with torch.no_grad():
                 if self.norm_type == 'l-infty':
