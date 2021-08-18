@@ -144,7 +144,7 @@ class ImageLoader(Dataset):
         image = cv2.imread(self.image_set[index][0])
         if self.transform:
             image = self.transform(image)
-        return image, torch.tensor(self.image_set[index][1], dtype=torch.long), self.image_set[index][0]
+        return image, torch.tensor(self.image_set[index][1], dtype=torch.long)
 
     def __len__(self):
         return len(self.image_set)
@@ -157,7 +157,7 @@ class ImageLoader(Dataset):
         for klass, name in enumerate(names):
             def add_class(image):
                 image_path = os.path.join(self.root_dir, name, image)
-                return image_path, klass, name
+                return image_path, name
 
             images_of_person = os.listdir(os.path.join(self.root_dir, name))
             image_set += map(
