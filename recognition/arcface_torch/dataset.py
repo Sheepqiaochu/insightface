@@ -157,7 +157,7 @@ class ImageLoader(Dataset):
         for klass, name in enumerate(names):
             def add_class(image):
                 image_path = os.path.join(self.root_dir, name, image)
-                return image_path, name
+                return image_path, klass
 
             images_of_person = os.listdir(os.path.join(self.root_dir, name))
             image_set += map(
