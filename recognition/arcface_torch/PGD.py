@@ -63,6 +63,7 @@ class PGDAttacker:
             features = F.normalize(backbone(adv_x))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
             print(loss_v.shape)
+            print(loss_v)
             tem = torch.mm(x_grad, features.t())
             grad = torch.autograd.grad(tem, [adv_x],grad_outputs=torch.ones_like(tem))[0]
 
