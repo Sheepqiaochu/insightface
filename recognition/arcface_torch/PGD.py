@@ -25,12 +25,9 @@ class PGDAttacker:
         try:
             world_size = int(os.environ['WORLD_SIZE'])
             rank = int(os.environ['RANK'])
-            dist.init_process_group('nccl')
         except KeyError:
             world_size = 1
             rank = 0
-            dist.init_process_group(backend='nccl', init_method="tcp://127.0.0.1:12584", rank=rank,
-                                    world_size=world_size)
 
         local_rank = self.args.local_rank
         torch.cuda.set_device('cuda:' + str(local_rank))
