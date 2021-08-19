@@ -14,7 +14,10 @@ from torchvision import transforms
 
 
 def trans_save(label, x, root):
+    label = label.item()
     image_dir = os.path.join(root, str(label))
+    if not os.path.exists(image_dir):
+        os.makedirs(image_dir)
     count = len([lists for lists in os.listdir(image_dir) if os.path.isdir(os.path.join(image_dir, lists))])
     image_name = str(label) + '_' + str(count) + '.jpg'
     x.save(os.path.join(image_dir, image_name))

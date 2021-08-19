@@ -62,7 +62,7 @@ class PGDAttacker:
             features = F.normalize(backbone(adv_x))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
 
-            assert (features.grad == True)
+            # assert (features.grad == True)
             tem = x_grad.data * features
             looo = tem.sum() / 32  # batch size
             grad = torch.autograd.grad(looo, [adv_x])[0]
