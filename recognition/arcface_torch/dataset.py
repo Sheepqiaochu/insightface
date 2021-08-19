@@ -137,7 +137,7 @@ class ImageLoader(Dataset):
         self.root_dir = root_dir
         self.local_rank = local_rank
 
-        self.image_set = self.get_dataset(self.root_dir)
+        self.image_set = get_dataset(self.root_dir)
 
     def __getitem__(self, index):
         image = cv2.imread(self.image_set[index][0])
