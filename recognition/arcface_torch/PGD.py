@@ -61,8 +61,7 @@ class PGDAttacker:
             adv_x.requires_grad_()
             features = F.normalize(backbone(adv_x))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
-            # print(loss_v.shape)
-            # print(loss_v)
+
             assert (features.grad == True)
             tem = x_grad.data * features
             looo = tem.sum() / 32  # batch size

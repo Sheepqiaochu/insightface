@@ -2,18 +2,22 @@ import argparse
 import logging
 import os
 
-import foolbox as fb
 import torch
 import torch.distributed as dist
 import torch.utils.data.distributed
 
-import losses
 from PGD import PGDAttacker
 from backbones import get_model
-from dataset import MXFaceDataset, DataLoaderX, ImageLoader
-from partial_fc import PartialFC
+from dataset import DataLoaderX, ImageLoader
 from utils.utils_config import get_config
-from utils.utils_logging import AverageMeter
+from torchvision import transforms
+
+
+def trans_save(label, x, root):
+    image_dir = os.path.join(root, str(label))
+    count = len([lists for lists in os.listdir(image_dir) if os.path.isdir(os.path.join(image_dir, lists))])
+    image_name = str(label) + '_' + str(count) + '.jpg'
+    x.save(os.path.join(image_dir, image_name))
 
 
 def main(args):
@@ -48,29 +52,11 @@ def main(args):
     backbone = torch.nn.parallel.DistributedDataParallel(
         module=backbone, broadcast_buffers=False, device_ids=[local_rank])
 
-    margin_softmax = losses.get_loss(cfg.loss)
-    module_partial_fc = PartialFC(
-        rank=rank, local_rank=local_rank, world_size=world_size, resume=cfg.resume,
-        batch_size=cfg.batch_size, margin_softmax=margin_softmax, num_classes=cfg.num_classes,
-        sample_rate=cfg.sample_rate, embedding_size=cfg.embedding_size, prefix=cfg.output)
-
-    opt_backbone = torch.optim.SGD(
-        params=[{'params': backbone.parameters()}],
-        lr=cfg.lr / 512 * cfg.batch_size * world_size,
-        momentum=0.9, weight_decay=cfg.weight_decay)
-    opt_pfc = torch.optim.SGD(
-        params=[{'params': module_partial_fc.parameters()}],
-        lr=cfg.lr / 512 * cfg.batch_size * world_size,
-        momentum=0.9, weight_decay=cfg.weight_decay)
-
-    num_image = len(image_set)
-    total_batch_size = cfg.batch_size * world_size
-    loss = AverageMeter()
-
-    attack = fb.attacks.LinfPGD
     pgd = PGDAttacker(12, 10, 1, True, norm_type='l-infty', args=args)
     for step, (img, label) in enumerate(image_loader):
-       adv_x = pgd.perturb(backbone, img, label)
+        adv_x = pgd.perturb(backbone, img, label)
+        pic_x = transforms.ToPILImage(adv_x)
+        trans_save(label, pic_x, args.save_path)
 
 
 if __name__ == "__main__":
@@ -81,5 +67,5 @@ if __name__ == "__main__":
     parser.add_argument('--local_rank', type=int, default=0, help='local_rank')
     parser.add_argument('--model', type=str, default='r34', help='choose the model type')
     parser.add_argument('--data_root', type=str, default='~/datasets/cropped', help='choose the model type')
-
+    parser.add_argument('--save_path', type=str, default='~/datasets/results', help='path to save the images')
     main(parser.parse_args())
