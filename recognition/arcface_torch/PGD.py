@@ -1,7 +1,6 @@
 import os
 
 import torch
-import torch.distributed as dist
 import torch.nn.functional as F
 import torch.utils.data.distributed
 
@@ -62,10 +61,13 @@ class PGDAttacker:
             adv_x.requires_grad_()
             features = F.normalize(backbone(adv_x))
             x_grad, loss_v = module_partial_fc.forward_backward(label, features, opt_pfc)
-            print(loss_v.shape)
-            print(loss_v)
-            tem = torch.mm(x_grad, features.t())
-            grad = torch.autograd.grad(tem, [adv_x],grad_outputs=torch.ones_like(tem))[0]
+            # print(loss_v.shape)
+            # print(loss_v)
+            assert (features.grad == True)
+            tem = x_grad.data * features
+            looo = tem.sum() / 32  # batch size
+            grad = torch.autograd.grad(looo, [adv_x])[0]
+            # grad = torch.autograd.grad(tem, [adv_x],grad_outputs=torch.ones_like(tem))[0]
 
             with torch.no_grad():
                 if self.norm_type == 'l-infty':
