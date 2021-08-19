@@ -70,5 +70,5 @@ if __name__ == "__main__":
     parser.add_argument('--local_rank', type=int, default=0, help='local_rank')
     parser.add_argument('--model', type=str, default='r34', help='choose the model type')
     parser.add_argument('--data_root', type=str, default='~/datasets/cropped', help='choose the model type')
-    parser.add_argument('--save_path', type=str, default='~/datasets/results', help='path to save the images')
+    parser.add_argument('--save_path', type=str, default='/data/users/yangqiancheng/datasets/results', help='path to save the images')
     main(parser.parse_args())
