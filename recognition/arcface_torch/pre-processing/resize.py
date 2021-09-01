@@ -22,8 +22,9 @@ def resize_for_training():
             cropped = transforms.Compose([
                 transforms.ToPILImage(),
                 transforms.CenterCrop(112)])
-            cropped_image = cv2.cvtColor(numpy.asarray(cropped(img)), cv2.COLOR_RGB2BGR)
+            # cropped_image = cv2.cvtColor(numpy.asarray(cropped(img)), cv2.COLOR_RGB2BGR)
             # cv2.imwrite(os.path.join(new_root, fname), cropped_image)
+            cropped_image = cropped(img)
             cropped_image.save(os.path.join(new_root, fname))
             # cv2.imshow("img", img)
             # cv2.waitKey(0)
