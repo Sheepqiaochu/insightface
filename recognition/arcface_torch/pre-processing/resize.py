@@ -12,7 +12,7 @@ output_path = r'/data/users/yangqiancheng/datasets/cropped'  # 对齐后的保�
 
 
 def resize_for_training():
-    for root, files in os.walk(faces_path):
+    for root, _, files in os.walk(faces_path):
         for fname in files:
             img = cv2.imread(os.path.join(root, fname))
             # new_root = root.replace('20_faces','20_faces_clip')
@@ -26,3 +26,7 @@ def resize_for_training():
             cv2.imwrite(os.path.join(new_root, fname), cropped_image)
             # cv2.imshow("img", img)
             # cv2.waitKey(0)
+
+
+if __name__ == '__main__':
+    resize_for_training()
