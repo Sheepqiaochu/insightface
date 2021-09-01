@@ -18,7 +18,7 @@ from dataset import get_dataset
 def resize(x, index, paths):
     origin_img = cv2.imread(paths[index][0])
     len_org = origin_img.shape[0]
-    len_x = x.shape[0]
+    len_x = 112
     cropped = transforms.Compose([
         transforms.ToPILImage(),
         transforms.CenterCrop(len_org)])
