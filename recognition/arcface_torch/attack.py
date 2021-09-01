@@ -2,16 +2,35 @@ import argparse
 import logging
 import os
 
+import numpy
 import torch
 import torch.distributed as dist
 import torch.utils.data.distributed
-
+import cv2
 from PGD import PGDAttacker
 from backbones import get_model
 from dataset import DataLoaderX, ImageLoader
 from utils.utils_config import get_config
 from torchvision import transforms, utils
 from dataset import get_dataset
+
+
+def resize(x, index, paths):
+    origin_img = cv2.imread(paths[index][0])
+    len_org = origin_img.shape[0]
+    len_x = x.shape[0]
+    cropped = transforms.Compose([
+        transforms.ToPILImage(),
+        transforms.CenterCrop(len_org)])
+
+    if len_org <= len_x:
+        x = cv2.cvtColor(numpy.asarray(cropped(x)), cv2.COLOR_RGB2BGR)
+        cv2.imwrite(paths, x)
+    else:
+        edge = (len_org - len_x) / 2
+        origin_img[edge:len_org - edge, edge, len_org - edge] = x
+        cv2.imwrite(paths, origin_img)
+
 
 
 def main(args):
@@ -47,7 +66,7 @@ def main(args):
     backbone = torch.nn.parallel.DistributedDataParallel(
         module=backbone, broadcast_buffers=False, device_ids=[local_rank])
 
-    pgd = PGDAttacker(12, 10, 1, True, norm_type='l-infty', args=args)
+    pgd = PGDAttacker(12, 10, 2, True, norm_type='l-infty', args=args)
 
     for step, (img, label, index) in enumerate(image_loader):
         adv_x = pgd.perturb(backbone, img, label)
