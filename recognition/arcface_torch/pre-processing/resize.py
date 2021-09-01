@@ -14,13 +14,12 @@ output_path = r'/data/users/yangqiancheng/datasets/cropped'  # 对齐后的保�
 def resize_for_training():
     for root, _, files in os.walk(faces_path):
         for fname in files:
-            img = cv2.imread(os.path.join(root, fname))
+            img = Image.open(os.path.join(root, fname))
             # new_root = root.replace('20_faces','20_faces_clip')
             new_root = os.path.join(output_path, os.path.basename(root))
             if not os.path.exists(new_root):
                 os.mkdir(new_root)
             cropped = transforms.Compose([
-                transforms.ToPILImage(),
                 transforms.CenterCrop(112)])
             # cropped_image = cv2.cvtColor(numpy.asarray(cropped(img)), cv2.COLOR_RGB2BGR)
             # cv2.imwrite(os.path.join(new_root, fname), cropped_image)
