@@ -25,7 +25,7 @@ def resize(x, index, paths):
     # x = trans(x)
     cropped = transforms.Compose(
         [transforms.CenterCrop(len_org),
-         transforms.ToPILImage])
+         transforms.ToPILImage()])
 
     if len_org <= len_x:
         x = cropped(x)
