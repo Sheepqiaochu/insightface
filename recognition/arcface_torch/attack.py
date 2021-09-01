@@ -20,9 +20,9 @@ def resize(x, index, paths):
     origin_img = Image.open(paths[index][0])
     len_org = origin_img.sizep[0]
     len_x = 112
-    trans = transforms.Compose(
-        [transforms.ToPILImage()])
-    x = trans(x)
+    # trans = transforms.Compose(
+    #     [transforms.ToPILImage()])
+    # x = trans(x)
     cropped = transforms.Compose(
         [transforms.CenterCrop(len_org)])
 
