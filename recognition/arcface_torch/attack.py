@@ -23,7 +23,7 @@ def resize(x, index, paths):
         transforms.CenterCrop(len_org)])
 
     if len_org <= len_x:
-        x = cv2.cvtColor(numpy.asarray(cropped(x)), cv2.COLOR_RGB2BGR)
+        x = cv2.cvtColor(numpy.asarray(cropped(x).cpu()), cv2.COLOR_RGB2BGR)
         cv2.imwrite(paths[index][0], x)
     else:
         edge = (len_org - len_x) / 2
