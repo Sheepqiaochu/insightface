@@ -25,12 +25,12 @@ def resize(x, index, paths):
 
     if len_org <= len_x:
         x = cv2.cvtColor(numpy.asarray(cropped(x)), cv2.COLOR_RGB2BGR)
-        cv2.imwrite(paths, x)
+        cv2.imwrite(paths[index][0], x)
     else:
         edge = (len_org - len_x) / 2
         origin_img[edge:len_org - edge, edge, len_org - edge] = x
-        cv2.imwrite(paths, origin_img)
-
+        cv2.imwrite(paths[index][0], origin_img)
+    print("write image:" + paths[index][0])
 
 
 def main(args):
@@ -70,7 +70,8 @@ def main(args):
 
     for step, (img, label, index) in enumerate(image_loader):
         adv_x = pgd.perturb(backbone, img, label)
-        utils.save_image(adv_x, paths[index][0])
+        # utils.save_image(adv_x, paths[index][0])
+        resize(adv_x, index, paths)
 
 
 if __name__ == "__main__":

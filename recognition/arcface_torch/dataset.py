@@ -142,7 +142,7 @@ class ImageLoader(Dataset):
         if self.transform:
             image = self.transform(image)
         return image, torch.tensor(self.image_set[index][1], dtype=torch.long), \
-               torch.tensor(self.image_set[index][2], dtype=torch.long)
+            torch.tensor(self.image_set[index][2], dtype=torch.long)
 
     def __len__(self):
         return len(self.image_set)
