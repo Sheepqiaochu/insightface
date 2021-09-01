@@ -20,21 +20,22 @@ def resize(x, index, paths):
     origin_img = Image.open(paths[index][0])
     len_org = origin_img.size[0]
     len_x = 112
-    # trans = transforms.Compose(
-    #     [transforms.ToPILImage()])
-    # x = trans(x)
+    trans = transforms.Compose(
+        [transforms.ToPILImage()])
+    x = trans(x)
     cropped = transforms.Compose(
-        [transforms.CenterCrop(len_org),
-         transforms.ToPILImage()])
-    print(x[0].shape)
-    # if len_org <= len_x:
-    #     x = cropped(x[0])
-    #     x.save(paths[index][0])
-    # else:
-    #     edge = len_org / 2
-    #     origin_img.paste(x, (edge, edge))
-    #     cv2.imwrite(paths[index][0], origin_img)
-    # print("write image:" + paths[index][0])
+        [
+         transforms.CenterCrop(len_org)
+         ])
+
+    if len_org <= len_x:
+        x = cropped(x[0])
+        x.save(paths[index][0])
+    else:
+        edge = len_org / 2
+        origin_img.paste(x, (edge, edge))
+        cv2.imwrite(paths[index][0], origin_img)
+    print("write image:" + paths[index][0])
 
 
 def main(args):
