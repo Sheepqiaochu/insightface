@@ -26,15 +26,15 @@ def resize(x, index, paths):
     cropped = transforms.Compose(
         [transforms.CenterCrop(len_org),
          transforms.ToPILImage()])
-
-    if len_org <= len_x:
-        x = cropped(x)
-        x.save(paths[index][0])
-    else:
-        edge = len_org / 2
-        origin_img.paste(x, (edge, edge))
-        cv2.imwrite(paths[index][0], origin_img)
-    print("write image:" + paths[index][0])
+    print(x[0].shape)
+    # if len_org <= len_x:
+    #     x = cropped(x[0])
+    #     x.save(paths[index][0])
+    # else:
+    #     edge = len_org / 2
+    #     origin_img.paste(x, (edge, edge))
+    #     cv2.imwrite(paths[index][0], origin_img)
+    # print("write image:" + paths[index][0])
 
 
 def main(args):
