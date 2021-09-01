@@ -18,7 +18,7 @@ from PIL import Image
 
 def resize(x, index, paths):
     origin_img = Image.open(paths[index][0])
-    len_org = origin_img.sizep[0]
+    len_org = origin_img.size[0]
     len_x = 112
     # trans = transforms.Compose(
     #     [transforms.ToPILImage()])
