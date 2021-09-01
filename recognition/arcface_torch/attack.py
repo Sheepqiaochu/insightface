@@ -22,7 +22,7 @@ def resize(x, index, paths):
     len_x = 112
     trans = transforms.Compose(
         [transforms.ToPILImage()])
-    x = trans(x)
+    x = trans(x[0])
     cropped = transforms.Compose(
         [
          transforms.CenterCrop(len_org)
