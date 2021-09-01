@@ -20,7 +20,6 @@ def resize(x, index, paths):
     len_org = origin_img.shape[0]
     len_x = 112
     cropped = transforms.Compose([
-        transforms.ToPILImage(),
         transforms.CenterCrop(len_org)])
 
     if len_org <= len_x:
